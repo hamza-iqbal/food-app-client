@@ -1,104 +1,139 @@
 import React from 'react'
-import { Platform,View,Text,Button,SafeAreaView } from 'react-native';
-import {  createStackNavigator } from 'react-navigation-stack';
-import {  createAppContainer } from 'react-navigation';
-import {  createDrawerNavigator } from 'react-navigation-drawer';
-
+import { Platform, View } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { useSelector } from 'react-redux'
+import { Spinner } from 'native-base'
+import Menu from '../components/HeaderMenuButton'
 import SigninScreen from '../screens/SignIn';
 import SignupScreen from '../screens/SignUp';
 import HomeScreen from '../screens/Home';
 import RestaurantDetailsScreen from '../screens/RestaurantDetails';
 import WelcomeScreen from '../screens/Welcome';
 import ProfileScreen from '../screens/Profile';
-
-//import TestScreen from '../screens/Test';
-// import CategoryMealsScreen from '../screens/CategoryMealsScreen';
-// import MealDetailScreen from '../screens/MealDetailScreen';
+import DrawerComponent from '../components/DrawerComponent'
 import Colors from '../assets/colors';
-//import { Text } from 'native-base';
-/*
-const tabScreenConfig = {
-  Camera: {
-    screen: MealsNavigator,
-    navigationOptions: {
-      tabBarIcon: tabInfo => {
-        return (
-          <Ionicons name="ios-restaurant" size={25} color={tabInfo.tintColor} />
-        );
-      },
-      tabBarColor: Colors.primaryColor,
-      tabBarLabel:
-        Platform.OS === 'android' ? (
-          <Text style={{ fontFamily: 'open-sans-bold' }}>Meals</Text>
-        ) : (
-          'Meals'
-        )
-    }
-  },
-}
 
-*/
-
-
-const HomeWithDrawer = createDrawerNavigator(
-  {
-    Home: { screen: HomeScreen }
-  }, {
-  contentComponent: (props) => (
-    <View style={{ flex: 1 }}>
-      <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-        <Button
-          color='red'
-          title='Profile'
-          onPress={() => { console.log('hahaProfile') }}
-        />
-        <Button
-          color='red'
-          title='Logout'
-          onPress={() => { console.log('haha') }}
-        />
-      </SafeAreaView>
-    </View>
-  ),
+const HomeWithDrawer = createDrawerNavigator({
+  Home: HomeScreen
+}, {
+  contentComponent: () =>(<DrawerComponent />),
   drawerWidth: '80%',
 })
-const Navigator = createStackNavigator(
+const AuthStack = createStackNavigator({
+  Welcome: {
+    screen: WelcomeScreen,
+    navigationOptions:{
+      header:()=>null
+    }
+  },
+  SignIn: SigninScreen,
+  SignUp: SignupScreen,
+},{
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: Platform.OS === 'android' ? Colors.red_shade : 'white'
+    },
+    headerTintColor:
+      Platform.OS === 'android' ? 'white' : Colors.red_shade,
+  }
+})
+const AppStack = createStackNavigator({
+  Home: {
+    screen: HomeWithDrawer,
+    navigationOptions: {
+      title: 'Home',
+      headerLeft:()=>(<Menu/>)
+    }
+  },
+  Profile: ProfileScreen,
+  RestaurantDetails: {
+    screen: RestaurantDetailsScreen,
+    navigationOptions: {
+      title: 'Details',
+    }
+  },
+},{
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: Platform.OS === 'android' ? Colors.red_shade : ''
+    },
+    headerTintColor:
+      Platform.OS === 'android' ? 'white' : Colors.red_shade,
+  }
+})
+// 
+const AuthLoadingScreen = props => {
+
+  const token = useSelector(state => state.Auth.token)
+  React.useEffect(() => {
+    props.navigation.navigate(token ? 'App' : 'Auth');
+  }, [])
+
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Spinner color={Colors.red_shade} />
+    </View>
+  );
+}
+
+
+// const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
+// const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+
+export default createAppContainer(createSwitchNavigator(
   {
-    //Test:TestScreen,
-    Welcome: {
-      screen: WelcomeScreen,
-      navigationOptions: {
-        headerShown: false,
-      }
-    },
-    SignIn: {
-      screen: SigninScreen
-    },
-    SignUp: SignupScreen,
-    Home: {
-      screen: HomeWithDrawer,
-      navigationOptions: {
-        title: 'Home',
-        headerLeft:()=> null,
-        gestureEnabled: false,
-      }
-    },
-    RestaurantDetails:{
-      screen: RestaurantDetailsScreen,
-      navigationOptions: {
-        title: 'Details',
-      }
-    },
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? Colors.red_shade : ''
-      },
-      headerTintColor: 
-        Platform.OS === 'android' ? 'white' : Colors.red_shade,
-    }
+    initialRouteName: 'AuthLoading'
   }
-);
+));
 
-export default createAppContainer(Navigator);
+//const Navigator = createStackNavigator(
+  //   {
+  //     //Test:TestScreen,
+  //     Welcome: {
+  //       screen: WelcomeScreen,
+  //       navigationOptions: {
+  //         headerShown: false,
+  //       }
+  //     },
+  //     SignIn: {
+  //       screen: SigninScreen
+  //     },
+  //     Profile: {
+  //       screen: ProfileScreen
+  //     },
+  //     SignUp: SignupScreen,
+  //     Home: {
+  //       screen: HomeWithDrawer,
+  //       navigationOptions: {
+  //         title: 'Home',
+  //         headerLeft: () => null,
+  //         gestureEnabled: false,
+  //       }
+  //     },
+  //     RestaurantDetails: {
+  //       screen: RestaurantDetailsScreen,
+  //       navigationOptions: {
+  //         title: 'Details',
+  //       }
+  //     },
+  //   },
+  //   {
+  //     defaultNavigationOptions: {
+  //       headerStyle: {
+  //         backgroundColor: Platform.OS === 'android' ? Colors.red_shade : ''
+  //       },
+  //       headerTintColor:
+  //         Platform.OS === 'android' ? 'white' : Colors.red_shade,
+  //     }
+  //   }
+  // );
+  
+  //export default createAppContainer(Navigator);
+  

@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, StyleSheet, Alert, TextInput } from 'react-native'
-import { Container, Header, Button, Content, Item, Input, Text, Icon, Toast, Spinner } from 'native-base'
+import { View, StyleSheet } from 'react-native'
+import { Button, Item, Input, Text, Icon, Toast, Spinner } from 'native-base'
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import Colors from '../assets/colors'
 import { end_point } from '../assets/config'
