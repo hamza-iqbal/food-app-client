@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet, Image, TouchableOpacity,Platform } from 'react-native'
-import { Text, View, Container, Icon, Button, Fab } from 'native-base'
+import { StyleSheet, Image, TouchableOpacity,TouchableNativeFeedback, Platform } from 'react-native'
+import { Text, View, Button } from 'native-base'
 // import PizzaImage from '../assets/images/pizza.jpg'
 import Colors from '../assets/colors'
 import { AntDesign } from '@expo/vector-icons';
@@ -11,60 +11,56 @@ import { image_end_point } from '../assets/config'
 
 const RestaurantCard = props => {
 
-    const [modalVisible, setModalVisible] = React.useState(false)
-    //console.log('propas',props)
+    //const [modalVisible, setModalVisible] = React.useState(false)
+    let TouchableCmp = TouchableOpacity;
 
+    if (Platform.OS === 'android' && Platform.Version >= 21) {
+        TouchableCmp = TouchableNativeFeedback;
+    }
 
     return (
-        <TouchableOpacity style={{ width: '100%' }} onPress={()=>props.navigation.navigate('RestaurantDetails',{
-            restaurant:props.restaurant,
-            image:props.image
+        <TouchableCmp style={{ ...styles.touchable, width: '100%' }} onPress={() => props.navigation.navigate('RestaurantDetails', {
+            restaurant: props.restaurant,
+            image: props.image
         })}>
-
-            <Modal 
-                isVisible={modalVisible} 
-                style={{ backgroundColor: '#fff' }} 
-                onSwipeComplete={()=>setModalVisible(false)}
+            {/* <Modal
+                isVisible={modalVisible}
+                style={{ backgroundColor: '#fff' }}
+                onSwipeComplete={() => setModalVisible(false)}
                 swipeDirection={['down']}
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{fontSize:20,fontFamily:'open-sans-bold',color:Colors.blue_shade}}>Dine at {props.restaurant.title}</Text>
+                    <Text style={{ fontSize: 20, fontFamily: 'open-sans-bold', color: Colors.blue_shade }}>Dine at {props.restaurant.title}</Text>
                     <AntDesign name="qrcode" size={150} />
                     <Button rounded style={{ backgroundColor: Colors.red_shade, width: '80%', justifyContent: 'center' }} onPress={() => setModalVisible(false)}>
                         <Text>Okay</Text>
                     </Button>
                 </View>
-            </Modal>
+            </Modal> */}
 
             <View style={styles.boxMain}>
                 <View style={styles.imageContainer}>
-                    <Image source={{uri:image_end_point+props.image}} style={styles.image} />
+                    <Image source={{ uri: image_end_point + props.image }} style={styles.image} />
                 </View>
                 <View style={styles.infoContent}>
                     <Text style={styles.restaurantTitle}>{props.restaurant.title}</Text>
                     <Text style={styles.restaurantDescription}>{props.restaurant.tags}</Text>
                 </View>
             </View>
-        </TouchableOpacity>
+        </TouchableCmp>
     )
 }
 
 const styles = StyleSheet.create({
     boxMain: {
         backgroundColor: '#fff',
-        //margin: 5,
         marginVertical: 5,
         width: '100%',
         borderRadius: 5,
         overflow: 'hidden',
-        shadowColor: 'black',
-        shadowOpacity: 0.86,
-        shadowOffset: { width: 4, height: 2 },
-        shadowRadius: 10,
-    elevation: 5
+        elevation: 5
     },
     image: {
-        //    textAlign: 'center',
         height: '100%',
         width: '100%'
     }
@@ -90,6 +86,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 10
+    },
+    touchable: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        overflow:
+            Platform.OS === 'android' && Platform.Version >= 21
+                ? 'hidden'
+                : 'visible',
+        elevation: 5
     }
 })
 

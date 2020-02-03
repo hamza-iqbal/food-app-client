@@ -56,14 +56,17 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     thumbnail:{
-        height:undefined,
-        width:undefined,
+        height:'100%',
+        width:'100%',
         flex:1
     },
     imageContainer:{
-        padding:0,
+        paddingLeft:60,
+        paddingRight:60,
+        paddingTop:60,
+        paddingBottom:60,
         width:'100%',
-        height:300
+        height:350
     },
     welcomeInfoContainer:{
         
@@ -72,7 +75,8 @@ const styles = StyleSheet.create({
         fontSize:25,
         fontWeight:'700',
         color:Colors.grey_shade,
-        marginVertical:10
+        marginVertical:10,
+        fontFamily:'open-sans-bold'
     },
     infoText:{
         fontSize:15,

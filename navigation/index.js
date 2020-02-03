@@ -6,14 +6,19 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { useSelector } from 'react-redux'
 import { Spinner } from 'native-base'
 import Menu from '../components/HeaderMenuButton'
+import CameraButton from '../components/HeaderCameraButton'
 import SigninScreen from '../screens/SignIn';
 import SignupScreen from '../screens/SignUp';
 import HomeScreen from '../screens/Home';
 import RestaurantDetailsScreen from '../screens/RestaurantDetails';
 import WelcomeScreen from '../screens/Welcome';
 import ProfileScreen from '../screens/Profile';
+import RestaurantHome from '../screens/RestaurantHome'
 import DrawerComponent from '../components/DrawerComponent'
 import Colors from '../assets/colors';
+import ScanScreen from '../screens/Scan'
+import RestaurantSigninScreen from '../screens/SignInRestaurant'
+import ScanHistoryScreen from '../screens/ScanHistory'
 
 const HomeWithDrawer = createDrawerNavigator({
   Home: HomeScreen
@@ -29,11 +34,18 @@ const AuthStack = createStackNavigator({
     }
   },
   SignIn: SigninScreen,
+  RestaurantSignIn: {
+    screen:RestaurantSigninScreen,
+    navigationOptions:{
+      title:'Restaurant'
+    }
+  },
   SignUp: SignupScreen,
 },{
   defaultNavigationOptions: {
     headerStyle: {
-      backgroundColor: Platform.OS === 'android' ? Colors.red_shade : 'white'
+      backgroundColor: Platform.OS === 'android' ? Colors.red_shade : 'white',
+      // alignItems:'center'
     },
     headerTintColor:
       Platform.OS === 'android' ? 'white' : Colors.red_shade,
@@ -44,9 +56,11 @@ const AppStack = createStackNavigator({
     screen: HomeWithDrawer,
     navigationOptions: {
       title: 'Home',
-      headerLeft:()=>(<Menu/>)
+      headerLeft:()=>(<Menu/>),
+      headerRight:()=>(<CameraButton/>)
     }
   },
+  Scan: ScanScreen,
   Profile: ProfileScreen,
   RestaurantDetails: {
     screen: RestaurantDetailsScreen,
@@ -54,10 +68,43 @@ const AppStack = createStackNavigator({
       title: 'Details',
     }
   },
+  ScanHistory:{
+    screen: ScanHistoryScreen,
+    navigationOptions: {
+      title: 'Scan History',
+    }
+  }
 },{
   defaultNavigationOptions: {
     headerStyle: {
-      backgroundColor: Platform.OS === 'android' ? Colors.red_shade : ''
+      backgroundColor: Platform.OS === 'android' ? Colors.red_shade : '#fff'
+    },
+    //cardShadowEnabled:true,
+    headerTintColor:
+      Platform.OS === 'android' ? 'white' : Colors.red_shade,
+  }
+})
+const RestaurantStack = createStackNavigator({
+  Home: {
+    screen: RestaurantHome,
+    navigationOptions: {
+      title: 'Home',
+      headerLeft:()=>(null),
+      headerRight:()=>(null)
+    }
+  },
+  //Scan: ScanScreen,
+  Profile: ProfileScreen,
+  // RestaurantDetails: {
+  //   screen: RestaurantDetailsScreen,
+  //   navigationOptions: {
+  //     title: 'Details',
+  //   }
+  // },
+},{
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: Platform.OS === 'android' ? Colors.red_shade : '#fff'
     },
     headerTintColor:
       Platform.OS === 'android' ? 'white' : Colors.red_shade,
@@ -67,8 +114,9 @@ const AppStack = createStackNavigator({
 const AuthLoadingScreen = props => {
 
   const token = useSelector(state => state.Auth.token)
+  const user = useSelector(state => state.Auth.user)
   React.useEffect(() => {
-    props.navigation.navigate(token ? 'App' : 'Auth');
+    props.navigation.navigate(token ? user.role==='restaurant'?'Rest':'App' : 'Auth');
   }, [])
 
   return (
@@ -87,6 +135,7 @@ export default createAppContainer(createSwitchNavigator(
     AuthLoading: AuthLoadingScreen,
     App: AppStack,
     Auth: AuthStack,
+    Rest: RestaurantStack,
   },
   {
     initialRouteName: 'AuthLoading'

@@ -7,7 +7,7 @@ import Colors from '../assets/colors'
 const HeaderMenuButton = props => {
     return (
         <TouchableOpacity onPress={()=>props.navigation.toggleDrawer()}>
-            <View style={{padding:10}} onPress>
+            <View style={{padding:10}}>
             {
                 Platform.OS === 'android'?
                 <MaterialIcons name="menu" style={{ fontSize:23, color: '#fff' }} />

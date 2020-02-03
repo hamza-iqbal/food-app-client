@@ -21,7 +21,7 @@ const SignIn = props => {
 
     setState({ ...state, loading: true })
     try {
-      fetch(end_point + '/api/user/login', {
+      fetch(end_point + '/api/restaurant/login', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -37,10 +37,10 @@ const SignIn = props => {
             type: "danger"
           })
         } else {
-          dispatch({ type: 'SAVE_LOGIN_DETAILS', payload: response.User })
+          dispatch({ type: 'SAVE_LOGIN_DETAILS', payload: response.Restaurant })
           dispatch({ type: 'SAVE_TOKEN', payload: response.token })
 
-          props.navigation.navigate('App')
+          props.navigation.navigate('Rest')
         }
       }).catch(() => {
         setState({ ...state, loading: false })
@@ -100,15 +100,15 @@ const SignIn = props => {
             <Text style={{ color: 'grey', fontWeight: '500', marginVertical: 10 }}>Forgot Password?</Text>
           </View>
           </TouchableOpacity>
-          <View>
+          {/* <View>
             <Text style={{ color: 'grey', fontWeight: '500', marginVertical: 10 }}>or</Text>
-          </View>
-          <TouchableOpacity onPress={()=>props.navigation.navigate('RestaurantSignIn')}>
+          </View> */}
+          {/* <TouchableOpacity onPress={()=>props.navigate('RestaurantSignIn')}>
 
             <View>
               <Text style={{ color: Colors.red_shade, fontWeight: '500', marginVertical: 10 }}>Sign In as Restaurant</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
       </KeyboardAvoidingView>

@@ -25,6 +25,8 @@ const AuthReducer = (state = initialState, action) => {
             return ({...state,user:null,token:null})
         case actions.SAVE_TOKEN:
             return ({...state,token:action.payload})
+        case actions.UPDATE_USER_DETAILS:
+            return ({...state,user:action.payload})
     }
     return state;
 }

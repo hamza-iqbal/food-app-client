@@ -6,9 +6,10 @@ import { View, Text } from 'native-base'
 // import Pizza from '../assets/images/pizza.jpg'
 // import Jade from '../assets/images/jade.jpg'
 import { image_end_point } from '../assets/config'
-const RestaurantDetails = props => {
-   console.log('props in Details', props)
 
+
+const RestaurantDetails = props => {
+   
 
     return (
         <ScrollView>

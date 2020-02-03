@@ -14,3 +14,8 @@ export const SAVE_TOKEN = 'SAVE_TOKEN'
 export const saveToken = payload => {
     return  { type: SAVE_TOKEN, payload }
 }
+export const UPDATE_USER_DETAILS = 'UPDATE_USER_DETAILS'
+
+export const updateUserDetails = payload => {
+    return  { type: UPDATE_USER_DETAILS, payload }
+}

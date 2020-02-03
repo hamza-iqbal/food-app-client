@@ -1,9 +1,11 @@
 import React from 'react'
-import { View, StyleSheet, Alert, TextInput } from 'react-native'
-import { Container, Header, Button, Content, Item, Input, Text, Icon ,Toast,Spinner} from 'native-base'
+import { View, StyleSheet, ScrollView,Image,KeyboardAvoidingView } from 'react-native'
+import { Button, Item, Input, Text, Toast,Spinner} from 'native-base'
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import Colors from '../assets/colors'
 import { end_point } from '../assets/config'
+import Logo from '../assets/images/logo.png'
+
 
 const SignUp = props => {
 
@@ -19,7 +21,7 @@ const SignUp = props => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ firstName: state.firstName,lastName: state.lastName,email: state.email, password: state.password })
+                body: JSON.stringify({ firstName: state.firstName,lastName: state.lastName,email: state.email, password: state.password,verified:false,role:'user' })
             }).then(response => response.json()).then(response => {
                 console.log(`response ------------> `, response)
                 setLoading(false)
@@ -55,7 +57,12 @@ const SignUp = props => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <KeyboardAvoidingView style={{ flex: 1,backgroundColor:'#fff', flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={100}>
+            <ScrollView style={{flex:1,backgroundColor:'#fff'}} showsVerticalScrollIndicator={false}>
             <View style={styles.outerView}>
+            <View style={styles.imageContainer}>
+            <Image source={Logo} style={styles.thumbnail} />
+          </View>
                 <View>
                     <Item block style={{ ...styles.input }}>
                         <Input placeholder='First Name' onChange={event => setState({ ...state, firstName: event.nativeEvent.text })} value={state.firstName} keyboardType="email-address" />
@@ -95,6 +102,8 @@ const SignUp = props => {
                 </Button>
 
             </View>
+            </ScrollView>
+            </KeyboardAvoidingView>
         </TouchableWithoutFeedback>)
 }
 
@@ -111,7 +120,22 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '100%', marginVertical: 20, justifyContent: 'center'
-    }
+    },
+    thumbnail: {
+        height: '100%',
+        width: '100%',
+        flex: 1,
+        // marginHorizontal:100,
+        // marginVertical:20,
+      },
+      imageContainer: {
+        paddingLeft: 60,
+        paddingRight: 60,
+        paddingTop: 60,
+        paddingBottom: 60,
+        width: '100%',
+        height: 350
+      },
 })
 
 export default SignUp

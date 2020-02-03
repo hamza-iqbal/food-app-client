@@ -1,11 +1,12 @@
 import React from 'react'
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { View, StyleSheet, ScrollView,SafeAreaView } from 'react-native'
 import { Fab, Toast } from 'native-base'
 import RestaurantCard from '../components/RestaurantCard'
 import { useSelector, useDispatch } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../assets/colors'
 import { end_point } from '../assets/config'
+import { RNCamera } from 'react-native-camera';
 
 const Home = props => {
   const user = useSelector(state => state.Auth.user)
@@ -60,7 +61,8 @@ const Home = props => {
     }
   }, [])
   return (<>
-    <ScrollView showsVerticalScrollIndicator={false}>
+  {/* <SafeAreaView style={{flex:1}}> */}
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:'#fff'}}>
       <View style={styles.outerView}>
         {
           restaurants && restaurants.map(r => (<RestaurantCard key={r._id} restaurant={{ title: r.name, tags: 'fast food, pizza' }} image={r.profile_picture} />))
@@ -71,14 +73,17 @@ const Home = props => {
       containerStyle={{ bottom: 35, right: 35, height: 60, width: 60 }}
       style={styles.fab}
       position="bottomRight"
-      onPress={() => Toast.show({
-        text: 'This will open Camera for scanning qrcode!',
-        type: 'warning',
-        style: { backgroundColor: Colors.blue_shade }
-      })}
+      onPress={() => props.navigation.navigate('Scan')
+      //   Toast.show({
+      //   text: 'This will open Camera for scanning qrcode!',
+      //   type: 'warning',
+      //   style: { backgroundColor: Colors.blue_shade }
+      // })
+    }
     >
       <Ionicons name="md-qr-scanner" style={{ fontSize: 20, color: '#fff' }} />
     </Fab>
+    {/* </SafeAreaView> */}
   </>)
 }
 
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   fab: {
-    backgroundColor: Colors.blue_shade,
+    backgroundColor: Colors.red_shade,
     justifyContent: 'center',
     alignItems: 'center',
   }
