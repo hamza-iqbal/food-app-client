@@ -4,7 +4,7 @@ import { Text, View, Button } from 'native-base'
 // import PizzaImage from '../assets/images/pizza.jpg'
 import Colors from '../assets/colors'
 import { AntDesign } from '@expo/vector-icons';
-import Modal from "react-native-modal";
+//import Modal from "react-native-modal";
 import { withNavigation } from 'react-navigation';
 import { image_end_point } from '../assets/config'
 // import QRCode from 'react-native-qrcode-svg';
@@ -20,8 +20,7 @@ const RestaurantCard = props => {
 
     return (
         <TouchableCmp style={{ ...styles.touchable, width: '100%' }} onPress={() => props.navigation.navigate('RestaurantDetails', {
-            restaurant: props.restaurant,
-            image: props.image
+            restaurant: props.restaurant
         })}>
             {/* <Modal
                 isVisible={modalVisible}
@@ -40,11 +39,16 @@ const RestaurantCard = props => {
 
             <View style={styles.boxMain}>
                 <View style={styles.imageContainer}>
-                    <Image source={{ uri: image_end_point + props.image }} style={styles.image} />
+                    <Image source={{ uri: image_end_point + props.restaurant.profile_picture }} style={styles.image} />
                 </View>
-                <View style={styles.infoContent}>
-                    <Text style={styles.restaurantTitle}>{props.restaurant.title}</Text>
-                    <Text style={styles.restaurantDescription}>{props.restaurant.tags}</Text>
+                <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={styles.infoContent}>
+                        <Text style={styles.restaurantTitle}>{props.restaurant.name}</Text>
+                        <Text style={styles.restaurantDescription}>{props.restaurant.tags||'fast food, pizza'}</Text>
+                    </View>
+                    <View style={{...styles.infoContent,justifyContent:'flex-end'}}>
+                        <Text style={{fontSize:12,color:Colors.grey_shade}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>
+                    </View>
                 </View>
             </View>
         </TouchableCmp>

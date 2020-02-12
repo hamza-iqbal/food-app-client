@@ -24,7 +24,7 @@ const Welcome = props => {
                 <Text style={styles.welcomeText}>WELCOME</Text>
             </View>
             <View style={{alignItems:'center'}}>
-                <Text style={styles.infoText}>We will add some crazy line here. I haven't thought of any tho :P</Text>
+                <Text style={styles.infoText}>Lorem ipsum dolore set ameit lorem ipsum dolore set ameit lorem ipsum dolore set ameit</Text>
             </View>
         </View>
         <Button style={{...styles.button,backgroundColor:Colors.blue_shade}} onPress={()=>{

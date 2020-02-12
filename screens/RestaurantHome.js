@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import { image_end_point,end_point } from '../assets/config'
@@ -13,9 +13,9 @@ const RestaurantHome = props => {
     const [modalVisible, setModalVisible] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
     const [qrCode,setQrCode] = React.useState('')
-    console.log('props in Details------------------------------------------------------------------------', props)
     let user = useSelector(state => state.Auth.user)
     let token = useSelector(state => state.Auth.token)
+    console.log('props in Details------------------------------------------------------------------------', props,user,token)
 
     const fetchQRCode = () => {
         console.log('fetching...',user,token)
@@ -51,14 +51,15 @@ const RestaurantHome = props => {
     }, [])
 
 
-    return (
+    return (<ScrollView style={{flex:1,backgroundColor:'#fff'}}>
+
         <View style={styles.main}>
             <Modal
                 isVisible={modalVisible}
                 style={{ backgroundColor: '#fff' }}
                 onSwipeComplete={() => setModalVisible(false)}
                 swipeDirection={['down']}
-            >
+                >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     {/* <Text style={{ fontSize: 20, fontFamily: 'open-sans-bold', color: Colors.blue_shade }}>Dine at {props.restaurant.title}</Text> */}
                     {/* <AntDesign name="qrcode" size={150} /> */}
@@ -71,10 +72,10 @@ const RestaurantHome = props => {
                                 <Text>Failed to generate qrcode</Text>
                                 :
                                 <QRCode
-                                    value={qrCode}
-                                    size={200}
+                                value={qrCode}
+                                size={200}
                                 />
-                        }
+                            }
                     </View>
                     <Button rounded style={{ backgroundColor: Colors.red_shade, width: '60%', justifyContent: 'center' }} onPress={() => setModalVisible(false)}>
                         <Text style={{ color: '#fff' }}>Close</Text>
@@ -91,6 +92,7 @@ const RestaurantHome = props => {
                 }} style={{ padding: 20, backgroundColor: Colors.blue_shade }}><Text style={{ color: '#fff' }}>Generate QR code</Text></Button>
             </View>
         </View>
+                </ScrollView>
     )
 }
 
