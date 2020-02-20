@@ -1,21 +1,22 @@
 import React from 'react'
-import { View, StyleSheet, ScrollView,SafeAreaView,Text, Alert } from 'react-native'
-import { Fab, Toast, Input,Item } from 'native-base'
+import { View, StyleSheet, ScrollView, Text } from 'react-native'
+import { Fab, Toast } from 'native-base'
 import RestaurantCard from '../components/RestaurantCard'
+import RestaurantCardSquare from '../components/RestaurantCardSquare'
+import RestaurantCardHorizontal from '../components/RestaurantCardHorizontal'
 import { useSelector, useDispatch } from 'react-redux'
-import { Ionicons, AntDesign,Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../assets/colors'
 import { end_point } from '../assets/config'
 //import { RNCamera } from 'react-native-camera';
 import CategoryHorizontalItem from '../components/CategoriesHorizontalItem'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+//import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const categories = [{name:'Chinese',id:1},{name:'Pizza',id:2},{name:'Burgers',id:3},{name:'Arabian',id:4},{name:'Turkish',id:5}]
 
 const Home = props => {
   const user = useSelector(state => state.Auth.user)
   const token = useSelector(state => state.Auth.token)
-  const [searchText,setSearchText] = React.useState('')
   const restaurants = useSelector(state => state.User.restaurants)
   const [loading, setLoading] = React.useState(false)
   //const [restaurants,setRestaurants] = React.useState([])
@@ -67,28 +68,23 @@ const Home = props => {
   }, [])
   return (<>
   {/* <SafeAreaView style={{flex:1}}> */}
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:'#fff'}}>
-      <View style={{paddingTop:15,paddingBottom:15,paddingLeft:10,paddingRight:10,position:'relative',top:5}}>
-        <Item regular style={{borderColor:Colors.blue_shade,height:40}}>
-          <Input placeholder="search" onChange={event => setSearchText(event.nativeEvent.text)} value={searchText}/>
-          {
-            searchText === ''?
-            null:
-            <TouchableOpacity onPress={() => setSearchText('')}><Feather name="x" size={20} style={{marginRight:5}} /></TouchableOpacity>
-          }
-          <TouchableOpacity onPress={()=>{Alert.alert('you clicked search')}}><AntDesign name="search1" size={20} style={{marginRight:15}} /></TouchableOpacity>
-        </Item>
-      </View>
-      <Text style={{padding:10,fontSize: 18,fontWeight:'600',color:Colors.grey_shade}}>Categories</Text>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:'#FAFAFA'}}>
+      <Text style={{padding:10,fontSize: 18,fontWeight:'600',color:Colors.black_shade}}>Categories</Text>
       <ScrollView horizontal={true} style={styles.categoriesContainer} showsHorizontalScrollIndicator={false}>
         {
-          categories.map(c => <CategoryHorizontalItem data={c}/>)
+          categories.map(c => <CategoryHorizontalItem key={c.id} data={c}/>)
         }
       </ScrollView>
-      <Text style={{padding:10,fontSize: 18,fontWeight:'600',color:Colors.grey_shade}}>All Restaurants</Text>
+      <Text style={{padding:10,fontSize: 18,fontWeight:'600',color:Colors.black_shade}}>Featured Restaurants</Text>
+      <ScrollView style={{padding: 10,backgroundColor: '#FAFAFA'}} showsHorizontalScrollIndicator={false} horizontal={true}>
+        {
+          restaurants && restaurants.map(r => (<RestaurantCardSquare key={r._id} restaurant={r} />))
+        }
+      </ScrollView>
+      <Text style={{padding:10,fontSize: 18,fontWeight:'600',color:Colors.black_shade}}>All Restaurants</Text>
       <View style={styles.outerView}>
         {
-          restaurants && restaurants.map(r => (<RestaurantCard key={r._id} restaurant={r} />))
+          restaurants && restaurants.map(r => (<RestaurantCardHorizontal key={r._id} restaurant={r} />))
         }
       </View>
     </ScrollView>
@@ -98,7 +94,7 @@ const Home = props => {
       position="bottomRight"
       onPress={() => props.navigation.navigate('Scan')}
     >
-      <Ionicons name="md-qr-scanner" style={{ fontSize: 20, color: '#fff' }} />
+      <Ionicons name="md-qr-scanner" style={{ fontSize: 30, color: 'white',marginTop:5 }} />
     </Fab>
     {/* </SafeAreaView> */}
   </>)
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     padding: 10,
-    backgroundColor: '#fff'
+    backgroundColor: '#FAFAFA'
   },
   fab: {
     backgroundColor: Colors.red_shade,

@@ -4,13 +4,18 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useSelector,useDispatch } from 'react-redux'
 import { end_point } from '../assets/config'
 import { Toast } from 'native-base'
+import SuccessLottie from '../components/SuccessStarLottie'
+import FailureLottie from '../components/FailureLottie'
+import Modal from 'react-native-modal';
 
 const Scan = props => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [modalOpen,setModalOpen] = useState(false)
   const user = useSelector(state => state.Auth.user)
   const [loading,setLoading] = React.useState(false)
   const dispatch = useDispatch()
+  const [success,setSuccess] = React.useState(false)
 
 
   useEffect(() => {
@@ -38,13 +43,21 @@ const Scan = props => {
                   text: response.message ? response.message : 'Something went wrong!',
                   type: "danger"
               })
+              setModalOpen(true)
           } else {
-              props.navigation.goBack()
+              
               dispatch({type:'UPDATE_USER_DETAILS',payload:response.User})
               Toast.show({
                   text:response.message?response.message:"Successfully added points",
-                  type:'success'
+                  type:'success',
+                  duration:4000
               })
+              setModalOpen(true)
+              setSuccess(true)
+              // successAnimationRef.play()
+              // setTimeout(()=>{
+              //   props.navigation.goBack()
+              // },3000)
           }
       }).catch((err) => {
         console.log('errrrrr',err)
@@ -53,6 +66,7 @@ const Scan = props => {
               text: 'Something went wrong2!',
               type: "danger"
           })
+          setModalOpen(true)
       })
   } catch (error) {
       console.log(`error ------------> `, error)
@@ -61,6 +75,7 @@ const Scan = props => {
           text: 'Something went wrong!3',
           type: "danger"
       })
+      setModalOpen(true)
   }
   }
 
@@ -70,12 +85,20 @@ const Scan = props => {
     // alert(data);
     fetchPointsAPI(data)
   };
+  // React.useEffect(()=>{
+    
+  // },[])
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
+  }
+
+  const handleModalClose = () => {
+    setModalOpen(false)
+    props.navigation.goBack()
   }
 
   return (
@@ -89,11 +112,60 @@ const Scan = props => {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-    
+      {/* {
+        success === true?
+        <View style={{alignItems:'center',padding:20}}>
+          <LottieView options={defaultOptions} height={400} width={400} />
+        </View>
+        :
+        null
+      }
+      <View style={{alignItems:'center',padding:20,flex:1}}>
+          <LottieView options={defaultOptions} height={400} width={400} />
+        </View> */}
+      {/* <LottieView
+          ref={animation => {
+              scanningAnimationRef = animation;
+          }}
+          style={{
+              width: 200,
+              height: 200,
+              //backgroundColor: '#fafafa',
+          }}
+          source={require('../assets/lottie/qr_animation.json')}
+        /> */}
+    <Modal
+        testID={'modal'}
+        isVisible={modalOpen}
+        onSwipeComplete={handleModalClose}
+        onBackdropPress={handleModalClose}
+        swipeDirection={['down']}
+        style={styles.view}>
+          <View style={styles.modal}>
+            {
+              success===true?
+              <SuccessLottie text={'Points Added!'} />
+              :
+              <FailureLottie text={'Invalid QR Code'} />
+            }
+          </View>
+      </Modal>
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  view: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modal:{
+    backgroundColor:'#fff',
+    width:'100%',
+    height:'50%',padding:60
+  }
+});
 
 export default Scan
 /*import React, { Component } from 'react';

@@ -89,15 +89,15 @@ const SignUp = props => {
                     </Item>
                 </View>
                 <Button 
-                    style={{ ...styles.button, backgroundColor: Colors.blue_shade }} 
+                    style={{ ...styles.button, backgroundColor: Colors.red_shade }} 
                     onPress={handleSignUp}
                     disabled={loading === true ? true : false}
                 >
                     {
                         loading === true ?
-                        <Spinner color={Colors.red_shade} size={15} />
+                        <Spinner color={'black'} size={15} />
                         :
-                        <Text style={{ color: '#fff' }}>Sign Up</Text>
+                        <Text style={{ color: Colors.black_shade }}>Sign Up</Text>
                     }
                 </Button>
 
@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
         paddingLeft: 60,
         paddingRight: 60,
         paddingTop: 60,
-        paddingBottom: 60,
+        paddingBottom: 10,
         width: '100%',
-        height: 350
+        height: 250
       },
 })
 

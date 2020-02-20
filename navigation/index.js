@@ -6,11 +6,13 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { useSelector } from 'react-redux'
 import { Spinner } from 'native-base'
 import Menu from '../components/HeaderMenuButton'
-import CameraButton from '../components/HeaderCameraButton'
+import SearchButton from '../components/HeaderSearchButton'
+import LogoutButton from '../components/LogoutButton'
 import SigninScreen from '../screens/SignIn';
 import SignupScreen from '../screens/SignUp';
 import HomeScreen from '../screens/Home';
 import RestaurantDetailsScreen from '../screens/RestaurantDetails';
+import SearchRestaurantsScreen from '../screens/SearchRestaurants';
 import WelcomeScreen from '../screens/Welcome';
 import ProfileScreen from '../screens/Profile';
 import RestaurantHome from '../screens/RestaurantHome'
@@ -18,34 +20,39 @@ import DrawerComponent from '../components/DrawerComponent'
 import Colors from '../assets/colors';
 import ScanScreen from '../screens/Scan'
 import RestaurantSigninScreen from '../screens/SignInRestaurant'
-import ScanHistoryScreen from '../screens/ScanHistory'
+import RewardsScreen from '../screens/Rewards'
+import ChangePasswordScreen from '../screens/ChangePassword'
+import UploadImageScreen from '../screens/UploadImage'
 
 const HomeWithDrawer = createDrawerNavigator({
   Home: HomeScreen
 }, {
-  contentComponent: () =>(<DrawerComponent />),
+  contentComponent: () => (<DrawerComponent />),
   drawerWidth: '80%',
 })
 const AuthStack = createStackNavigator({
   Welcome: {
     screen: WelcomeScreen,
-    navigationOptions:{
-      header:()=>null
+    navigationOptions: {
+      header: () => null
     }
   },
   SignIn: SigninScreen,
   RestaurantSignIn: {
-    screen:RestaurantSigninScreen,
-    navigationOptions:{
-      title:'Restaurant'
+    screen: RestaurantSigninScreen,
+    navigationOptions: {
+      title: 'Restaurant'
     }
   },
   SignUp: SignupScreen,
-},{
+}, {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: Platform.OS === 'android' ? Colors.red_shade : 'white',
       // alignItems:'center'
+    },
+    headerTitleStyle: {
+      color: 'black'
     },
     headerTintColor:
       Platform.OS === 'android' ? 'white' : Colors.red_shade,
@@ -56,30 +63,44 @@ const AppStack = createStackNavigator({
     screen: HomeWithDrawer,
     navigationOptions: {
       title: 'Home',
-      headerLeft:()=>(<Menu/>),
-      headerRight:()=>(<CameraButton/>)
+      headerLeft: () => (<Menu />),
+      headerRight: () => (<SearchButton />)
     }
   },
   Scan: ScanScreen,
+  ChangePassword: {
+    screen: ChangePasswordScreen,
+    navigationOptions: {
+      title: 'Change Password',
+    }
+  },
   Profile: ProfileScreen,
+  SearchRestaurant: {
+    screen: SearchRestaurantsScreen,
+    navigationOptions: {
+      title: 'Search Restaurants',
+    }
+  },
   RestaurantDetails: {
     screen: RestaurantDetailsScreen,
     navigationOptions: {
       title: 'Details',
     }
   },
-  ScanHistory:{
-    screen: ScanHistoryScreen,
+  Rewards: {
+    screen: RewardsScreen,
     navigationOptions: {
-      title: 'Scan History',
+      title: 'Rewards',
     }
   }
-},{
+}, {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: Platform.OS === 'android' ? Colors.red_shade : '#fff'
     },
-    //cardShadowEnabled:true,
+    headerTitleStyle: {
+      color: 'black'
+    },
     headerTintColor:
       Platform.OS === 'android' ? 'white' : Colors.red_shade,
   }
@@ -89,22 +110,25 @@ const RestaurantStack = createStackNavigator({
     screen: RestaurantHome,
     navigationOptions: {
       title: 'Home',
-      headerLeft:()=>(null),
-      headerRight:()=>(null)
+      headerLeft: () => (null),
+      headerRight: () => (<LogoutButton />)
     }
   },
-  //Scan: ScanScreen,
   Profile: ProfileScreen,
-  // RestaurantDetails: {
-  //   screen: RestaurantDetailsScreen,
-  //   navigationOptions: {
-  //     title: 'Details',
-  //   }
-  // },
-},{
+  ChangePassword: {
+    screen: ChangePasswordScreen,
+    navigationOptions: {
+      title: 'Change Password',
+    }
+  },
+  UploadImage: UploadImageScreen
+}, {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: Platform.OS === 'android' ? Colors.red_shade : '#fff'
+    },
+    headerTitleStyle: {
+      color: 'black'
     },
     headerTintColor:
       Platform.OS === 'android' ? 'white' : Colors.red_shade,
@@ -116,7 +140,7 @@ const AuthLoadingScreen = props => {
   const token = useSelector(state => state.Auth.token)
   const user = useSelector(state => state.Auth.user)
   React.useEffect(() => {
-    props.navigation.navigate(token ? user.role==='restaurant'?'Rest':'App' : 'Auth');
+    props.navigation.navigate(token ? user.role === 'restaurant' ? 'Rest' : 'App' : 'Auth');
   }, [])
 
   return (
@@ -126,9 +150,6 @@ const AuthLoadingScreen = props => {
   );
 }
 
-
-// const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
-// const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 export default createAppContainer(createSwitchNavigator(
   {
@@ -141,48 +162,3 @@ export default createAppContainer(createSwitchNavigator(
     initialRouteName: 'AuthLoading'
   }
 ));
-
-//const Navigator = createStackNavigator(
-  //   {
-  //     //Test:TestScreen,
-  //     Welcome: {
-  //       screen: WelcomeScreen,
-  //       navigationOptions: {
-  //         headerShown: false,
-  //       }
-  //     },
-  //     SignIn: {
-  //       screen: SigninScreen
-  //     },
-  //     Profile: {
-  //       screen: ProfileScreen
-  //     },
-  //     SignUp: SignupScreen,
-  //     Home: {
-  //       screen: HomeWithDrawer,
-  //       navigationOptions: {
-  //         title: 'Home',
-  //         headerLeft: () => null,
-  //         gestureEnabled: false,
-  //       }
-  //     },
-  //     RestaurantDetails: {
-  //       screen: RestaurantDetailsScreen,
-  //       navigationOptions: {
-  //         title: 'Details',
-  //       }
-  //     },
-  //   },
-  //   {
-  //     defaultNavigationOptions: {
-  //       headerStyle: {
-  //         backgroundColor: Platform.OS === 'android' ? Colors.red_shade : ''
-  //       },
-  //       headerTintColor:
-  //         Platform.OS === 'android' ? 'white' : Colors.red_shade,
-  //     }
-  //   }
-  // );
-  
-  //export default createAppContainer(Navigator);
-  

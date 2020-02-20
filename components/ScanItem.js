@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import colors from '../assets/colors'
 import { AntDesign } from '@expo/vector-icons'
+import moment from 'moment'
 
 
 const ScanItem = props => {
@@ -10,7 +11,7 @@ const ScanItem = props => {
         <View style={styles.main}>
             <View style={styles.left}>
                 <Text style={styles.name}>{props.name}</Text>
-    <Text style={styles.date}>{props.dateTime}</Text>
+    <Text style={styles.date}>{moment(props.dateTime).format('DD-MM-YYYY HH:mm')}</Text>
                 <Text style={styles.points}>+ {props.points} Points</Text>
             </View>
             <View style={styles.right}>

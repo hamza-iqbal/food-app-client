@@ -16,14 +16,15 @@ const CategoriesHorizontalItem = props => {
 const styles = StyleSheet.create({
     main:{
         padding:10,
-        width:100,backgroundColor:colors.blue_shade,
+        width:100,
+        backgroundColor:colors.red_shade,
         borderRadius:5,
         marginHorizontal:3,
         alignItems:'center'
 
     },
     text:{
-        color:'#fff'
+        color:'white'
     }
 
 })

@@ -9,7 +9,7 @@ import { withNavigation } from 'react-navigation';
 import { image_end_point } from '../assets/config'
 // import QRCode from 'react-native-qrcode-svg';
 
-const RestaurantCard = props => {
+const RestaurantCardSquare = props => {
 
     //const [modalVisible, setModalVisible] = React.useState(false)
     let TouchableCmp = TouchableOpacity;
@@ -19,7 +19,7 @@ const RestaurantCard = props => {
     }
 
     return (
-        <TouchableCmp style={{ ...styles.touchable, width: '100%' }} onPress={() => props.navigation.navigate('RestaurantDetails', {
+        <TouchableCmp style={{ ...styles.touchable, width: 180 }} onPress={() => props.navigation.navigate('RestaurantDetails', {
             restaurant: props.restaurant
         })}>
             {/* <Modal
@@ -41,14 +41,14 @@ const RestaurantCard = props => {
                 <View style={styles.imageContainer}>
                     <Image source={{ uri: image_end_point + props.restaurant.profile_picture }} style={styles.image} />
                 </View>
-                <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                <View style={{flexDirection:'row',justifyContent:'flex-start'}}>
                     <View style={styles.infoContent}>
                         <Text style={styles.restaurantTitle}>{props.restaurant.name}</Text>
-                        <Text style={styles.restaurantDescription}>{props.restaurant.tags||'fast food, pizza'}</Text>
+                        <Text style={{fontSize:12,color:Colors.grey_shade,marginTop:7}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>
                     </View>
-                    <View style={{...styles.infoContent}}>
-                        <Text style={{fontSize:12,color:Colors.grey_shade}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>
-                    </View>
+                    {/* <View style={{...styles.infoContent,justifyContent:'flex-end'}}>
+                        
+                    </View> */}
                 </View>
             </View>
         </TouchableCmp>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     boxMain: {
         backgroundColor: '#fff',
         marginVertical: 5,
-        width: '100%',
+        width: 170,
         borderRadius: 5,
         overflow: 'hidden',
         elevation: 5
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
         height: 130
     },
     infoContent: {
-        padding: 10
+        padding: 7
     },
     restaurantTitle: {
-        fontSize: 20,
+        fontSize: 19,
         fontWeight: '300',
         color: Colors.red_shade,
         fontFamily: 'open-sans-bold'
@@ -108,4 +108,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withNavigation(RestaurantCard)
+export default withNavigation(RestaurantCardSquare)

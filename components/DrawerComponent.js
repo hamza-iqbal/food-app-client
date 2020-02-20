@@ -28,14 +28,24 @@ const DrawerComponent = props => {
                         <Text style={{ color: colors.red_shade }}>Profile</Text>
                     </Body>
                 </ListItem>
-                <ListItem icon onPress={() => props.navigation.navigate('ScanHistory')}>
+                <ListItem icon onPress={() => props.navigation.navigate('Rewards')}>
                     <Left>
                         <Button style={{ backgroundColor: colors.red_shade }}>
                             <AntDesign name="qrcode" color={"#fff"} size={25} />
                         </Button>
                     </Left>
                     <Body>
-                        <Text style={{ color: colors.red_shade }}>Scan History</Text>
+                        <Text style={{ color: colors.red_shade }}>Rewards</Text>
+                    </Body>
+                </ListItem>
+                <ListItem icon onPress={() => props.navigation.navigate('ChangePassword')}>
+                    <Left>
+                        <Button style={{ backgroundColor: colors.red_shade }}>
+                            <MaterialCommunityIcons name="key" color={"#fff"} size={25} />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Text style={{ color: colors.red_shade }}>Change Password</Text>
                     </Body>
                 </ListItem>
                 <ListItem icon onPress={handleLogout}>

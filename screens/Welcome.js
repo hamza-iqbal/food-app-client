@@ -27,13 +27,13 @@ const Welcome = props => {
                 <Text style={styles.infoText}>Lorem ipsum dolore set ameit lorem ipsum dolore set ameit lorem ipsum dolore set ameit</Text>
             </View>
         </View>
-        <Button style={{...styles.button,backgroundColor:Colors.blue_shade}} onPress={()=>{
+        <Button style={{...styles.button,backgroundColor:Colors.red_shade}} onPress={()=>{
             console.log(props.navigation)
             props.navigation.navigate('SignIn')
         }}>
-            <Text>Sign In</Text>
+            <Text style={{color:'black'}}>Sign In</Text>
         </Button>
-        <Button style={{...styles.button,backgroundColor:Colors.red_shade}} onPress={()=>{
+        <Button style={{...styles.button,backgroundColor:'black'}} onPress={()=>{
             console.log(props.navigation)
             props.navigation.navigate('SignUp')
         }}>
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
         flex:1
     },
     imageContainer:{
-        paddingLeft:60,
-        paddingRight:60,
-        paddingTop:60,
-        paddingBottom:60,
+        paddingLeft:30,
+        paddingRight:30,
+        paddingTop:30,
+        paddingBottom:10,
         width:'100%',
-        height:350
+        height:250
     },
     welcomeInfoContainer:{
         

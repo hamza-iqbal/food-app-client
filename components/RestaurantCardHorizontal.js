@@ -17,38 +17,24 @@ const RestaurantCard = props => {
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableCmp = TouchableNativeFeedback;
     }
-
     return (
         <TouchableCmp style={{ ...styles.touchable, width: '100%' }} onPress={() => props.navigation.navigate('RestaurantDetails', {
             restaurant: props.restaurant
         })}>
-            {/* <Modal
-                isVisible={modalVisible}
-                style={{ backgroundColor: '#fff' }}
-                onSwipeComplete={() => setModalVisible(false)}
-                swipeDirection={['down']}
-            >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontFamily: 'open-sans-bold', color: Colors.blue_shade }}>Dine at {props.restaurant.title}</Text>
-                    <AntDesign name="qrcode" size={150} />
-                    <Button rounded style={{ backgroundColor: Colors.red_shade, width: '80%', justifyContent: 'center' }} onPress={() => setModalVisible(false)}>
-                        <Text>Okay</Text>
-                    </Button>
-                </View>
-            </Modal> */}
-
             <View style={styles.boxMain}>
                 <View style={styles.imageContainer}>
                     <Image source={{ uri: image_end_point + props.restaurant.profile_picture }} style={styles.image} />
                 </View>
-                <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                    <View style={styles.infoContent}>
+                <View style={{flexDirection:'row',padding:10}}>
+                    <View style={{...styles.infoContent,width:150}}>
                         <Text style={styles.restaurantTitle}>{props.restaurant.name}</Text>
                         <Text style={styles.restaurantDescription}>{props.restaurant.tags||'fast food, pizza'}</Text>
+                        <Text style={styles.restaurantTimings}>11:00 AM - 9:00 PM</Text>
+                        <Text style={{fontSize:12,color:Colors.grey_shade,marginTop:7}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>
                     </View>
-                    <View style={{...styles.infoContent}}>
-                        <Text style={{fontSize:12,color:Colors.grey_shade}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>
-                    </View>
+                    {/* <View style={{marginTop:10}}>
+                        
+                    </View> */}
                 </View>
             </View>
         </TouchableCmp>
@@ -59,6 +45,7 @@ const styles = StyleSheet.create({
     boxMain: {
         backgroundColor: '#fff',
         marginVertical: 5,
+        flexDirection:'row',
         width: '100%',
         borderRadius: 5,
         overflow: 'hidden',
@@ -70,10 +57,13 @@ const styles = StyleSheet.create({
     }
     , imageContainer: {
         textAlign: 'center',
-        height: 130
+        height: 130,
+        width:140,
     },
     infoContent: {
-        padding: 10
+        //padding: 10
+        paddingHorizontal:10,
+        justifyContent:'space-between'
     },
     restaurantTitle: {
         fontSize: 20,
@@ -85,6 +75,13 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontFamily: 'open-sans',
         color: Colors.black_shade
+    },
+    restaurantTimings: {
+        fontSize: 15,
+        marginVertical:3,
+        fontFamily: 'open-sans',
+        // fontWeight:'bold',
+        color: '#A5A3A3'
     },
     buttonContainer: {
         flexDirection: 'row',
