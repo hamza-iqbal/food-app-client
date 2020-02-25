@@ -26,11 +26,11 @@ const RestaurantCard = props => {
                     <Image source={{ uri: image_end_point + props.restaurant.profile_picture }} style={styles.image} />
                 </View>
                 <View style={{flexDirection:'row',padding:10}}>
-                    <View style={{...styles.infoContent,width:150}}>
+                    <View style={{...styles.infoContent,width:'100%'}}>
                         <Text style={styles.restaurantTitle}>{props.restaurant.name}</Text>
-                        <Text style={styles.restaurantDescription}>{props.restaurant.tags||'fast food, pizza'}</Text>
+                        <Text style={styles.restaurantDescription}>{'fast food, pizza'}</Text>
                         <Text style={styles.restaurantTimings}>11:00 AM - 9:00 PM</Text>
-                        <Text style={{fontSize:12,color:Colors.grey_shade,marginTop:7}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>
+                        <Text style={{fontSize:12,color:Colors.grey_shade}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>
                     </View>
                     {/* <View style={{marginTop:10}}>
                         

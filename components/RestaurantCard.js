@@ -22,21 +22,6 @@ const RestaurantCard = props => {
         <TouchableCmp style={{ ...styles.touchable, width: '100%' }} onPress={() => props.navigation.navigate('RestaurantDetails', {
             restaurant: props.restaurant
         })}>
-            {/* <Modal
-                isVisible={modalVisible}
-                style={{ backgroundColor: '#fff' }}
-                onSwipeComplete={() => setModalVisible(false)}
-                swipeDirection={['down']}
-            >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontFamily: 'open-sans-bold', color: Colors.blue_shade }}>Dine at {props.restaurant.title}</Text>
-                    <AntDesign name="qrcode" size={150} />
-                    <Button rounded style={{ backgroundColor: Colors.red_shade, width: '80%', justifyContent: 'center' }} onPress={() => setModalVisible(false)}>
-                        <Text>Okay</Text>
-                    </Button>
-                </View>
-            </Modal> */}
-
             <View style={styles.boxMain}>
                 <View style={styles.imageContainer}>
                     <Image source={{ uri: image_end_point + props.restaurant.profile_picture }} style={styles.image} />

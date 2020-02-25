@@ -3,7 +3,7 @@ import { ScrollView, SafeAreaView, StyleSheet } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { withNavigation } from 'react-navigation'
 import { List, ListItem, Text, Button, Left, Right, Icon, Body } from 'native-base'
-import { MaterialIcons,MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'
+import { MaterialIcons,MaterialCommunityIcons, AntDesign,Feather } from '@expo/vector-icons'
 import colors from '../assets/colors'
 
 const DrawerComponent = props => {
@@ -26,6 +26,16 @@ const DrawerComponent = props => {
                     </Left>
                     <Body>
                         <Text style={{ color: colors.red_shade }}>Profile</Text>
+                    </Body>
+                </ListItem>
+                <ListItem icon onPress={() => props.navigation.navigate('Redeem')}>
+                    <Left>
+                        <Button style={{ backgroundColor: colors.red_shade }}>
+                            <Feather name="shopping-cart" color={"#fff"} size={22} />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Text style={{ color: colors.red_shade }}>Redeem Points</Text>
                     </Body>
                 </ListItem>
                 <ListItem icon onPress={() => props.navigation.navigate('Rewards')}>

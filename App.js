@@ -6,9 +6,10 @@ import { useScreens } from 'react-native-screens';
 import AuthReducer from './store/reducers/Auth'
 import UserReducer from './store/reducers/User'
 import { Provider } from 'react-redux'
-import { Root } from 'native-base'
+import { Root,StyleProvider } from 'native-base'
 import Navigator from './navigation';
 import { createStore, combineReducers } from 'redux'
+import colors from './assets/colors';
 
 const rootReducer = combineReducers({
   Auth: AuthReducer,
@@ -28,6 +29,12 @@ const fetchFonts = () => {
   });
 };
 
+const customTheme = {
+  'brandPrimary': {
+    color:colors.yellow_shade
+  }
+}
+
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -40,5 +47,5 @@ export default function App() {
     );
   }
 
-  return <Provider store={store}><Root><Navigator /></Root></Provider>;
+  return <Provider store={store}><Root><Navigator /></Root></Provider>
 }

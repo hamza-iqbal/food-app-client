@@ -76,9 +76,13 @@ const Home = props => {
         }
       </ScrollView>
       <Text style={{padding:10,fontSize: 18,fontWeight:'600',color:Colors.black_shade}}>Featured Restaurants</Text>
-      <ScrollView style={{padding: 10,backgroundColor: '#FAFAFA'}} showsHorizontalScrollIndicator={false} horizontal={true}>
+      <ScrollView style={{padding: 4,backgroundColor: '#FAFAFA'}} showsHorizontalScrollIndicator={false} horizontal={true}>
         {
-          restaurants && restaurants.map(r => (<RestaurantCardSquare key={r._id} restaurant={r} />))
+          restaurants && restaurants.map(r => {
+            if(r.featured===true){
+              return(<RestaurantCardSquare key={r._id} restaurant={r} />)
+            }
+          })
         }
       </ScrollView>
       <Text style={{padding:10,fontSize: 18,fontWeight:'600',color:Colors.black_shade}}>All Restaurants</Text>
@@ -94,7 +98,7 @@ const Home = props => {
       position="bottomRight"
       onPress={() => props.navigation.navigate('Scan')}
     >
-      <Ionicons name="md-qr-scanner" style={{ fontSize: 30, color: 'white',marginTop:5 }} />
+      <Ionicons name="ios-qr-scanner" style={{ fontSize: 30, color: 'white',marginTop:5 }} />
     </Fab>
     {/* </SafeAreaView> */}
   </>)

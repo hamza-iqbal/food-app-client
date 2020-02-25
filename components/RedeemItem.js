@@ -1,21 +1,21 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import colors from '../assets/colors'
-import { AntDesign } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment'
 
 
-const ScanItem = props => {
+const RedeemItem = props => {
 
     return(
         <View style={styles.main}>
             <View style={styles.left}>
                 <Text style={styles.name}>{props.name}</Text>
-    <Text style={styles.date}>{moment(props.dateTime).format('DD-MM-YYYY HH:mm')}</Text>
-                <Text style={styles.points}>+ {props.points} Points</Text>
+                <Text style={styles.date}>{moment().format('DD-MM-YYYY HH:mm')}</Text>
+                <Text style={styles.points}>Spent {props.points} Points</Text>
             </View>
             <View style={styles.right}>
-                <AntDesign name="qrcode" size={100} color={colors.red_shade}/>
+                <MaterialCommunityIcons name="coin" size={100} color={colors.red_shade}/>
             </View>
         </View>
     )
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ScanItem
+export default RedeemItem

@@ -19,10 +19,16 @@ import RestaurantHome from '../screens/RestaurantHome'
 import DrawerComponent from '../components/DrawerComponent'
 import Colors from '../assets/colors';
 import ScanScreen from '../screens/Scan'
+import RedeemScreen from '../screens/Redeem'
 import RestaurantSigninScreen from '../screens/SignInRestaurant'
 import RewardsScreen from '../screens/Rewards'
+import EditProfileScreen from '../screens/EditProfile'
+import RestaurantDealsScreen from '../screens/RestaurantDeals'
+
 import ChangePasswordScreen from '../screens/ChangePassword'
-import UploadImageScreen from '../screens/UploadImage'
+import AddButton from '../components/AddButton';
+import EditButton from '../components/EditButton';
+//import UploadImageScreen from '../screens/UploadImage'
 
 const HomeWithDrawer = createDrawerNavigator({
   Home: HomeScreen
@@ -68,13 +74,26 @@ const AppStack = createStackNavigator({
     }
   },
   Scan: ScanScreen,
+  Redeem: RedeemScreen,
   ChangePassword: {
     screen: ChangePasswordScreen,
     navigationOptions: {
       title: 'Change Password',
     }
   },
-  Profile: ProfileScreen,
+  EditProfile: {
+    screen: EditProfileScreen,
+    navigationOptions: {
+      title: 'Edit Profile',
+    }
+  },
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions:{
+      title:'Profile',
+      headerRight: () => (<EditButton />)
+    }
+  },
   SearchRestaurant: {
     screen: SearchRestaurantsScreen,
     navigationOptions: {
@@ -121,7 +140,20 @@ const RestaurantStack = createStackNavigator({
       title: 'Change Password',
     }
   },
-  UploadImage: UploadImageScreen
+  EditProfile: {
+    screen: EditProfileScreen,
+    navigationOptions: {
+      title: 'Edit Profile',
+    }
+  },
+  RestaurantDeals: {
+    screen: RestaurantDealsScreen,
+    navigationOptions: {
+      title: 'Deals',
+      headerRight: () => (<AddButton />)
+    },
+  },
+  //UploadImage: UploadImageScreen
 }, {
   defaultNavigationOptions: {
     headerStyle: {

@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     boxMain: {
         backgroundColor: '#fff',
         marginVertical: 5,
+        marginHorizontal:10,
         width: 170,
         borderRadius: 5,
         overflow: 'hidden',

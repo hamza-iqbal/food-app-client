@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     width: '100%', marginVertical: 20, justifyContent: 'center'
   },
   textInput:{
-    borderColor:Colors.black_shade,
+    borderColor:'#BDBDBD',
     borderWidth:1,
     borderRadius:5,
     marginVertical:10,

@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux'
 import QRCode from 'react-native-qrcode-svg';
 import { useSelector } from 'react-redux'
 import { MaterialIcons } from '@expo/vector-icons'
-import UploadImage from '../screens/UploadImage'
+//import UploadImage from '../screens/UploadImage'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withNavigation } from 'react-navigation';
 
@@ -56,18 +56,6 @@ const RestaurantHome = props => {
         }
     }
 
-    // React.useEffect(() => {
-    //     console.log(user, token)
-    // }, [])
-
-    const clearImage = () => {
-        setState({...state, image: null })
-    }
-
-    // const setLoading = (val) => {
-    //     setState({ ...state, loading: val })
-    // }
-
     const uploadImage = (image) => {
         let filename = image.split('/').pop();
         let match = /\.(\w+)$/.exec(filename);
@@ -94,10 +82,6 @@ const RestaurantHome = props => {
                         setLoading(false)
                         console.log('resssssssssssssss', res)
                         dispatch({type:'UPDATE_USER_DETAILS',payload:res.Restaurant})
-                        //const { updateUserDetails } = this.props;
-                        //updateUserDetails(res.Restaurant)
-                        
-                        // setQrCode(res.code)
                     })
                     .catch(err => {
                         console.log('error while uploading picture', err)
@@ -154,7 +138,7 @@ const RestaurantHome = props => {
     };
 
 
-    return (<ScrollView style={{flex:1,backgroundColor:'#fff'}}>
+    return (<ScrollView showsVerticalScrollIndicator={false} style={{flex:1,backgroundColor:'#fff'}}>
 
         <View style={styles.main}>
             <Modal
@@ -202,18 +186,56 @@ const RestaurantHome = props => {
                 </TouchableOpacity>
                 // :<View style={{width:'100%',alignItems:'center'}}><Button onPress={()=>props.navigation.navigate('UploadImage')}><Text>Upload Picture</Text></Button></View>
             }
-            
-            <View style={{ marginVertical: 20 }}>
-                <Button full onPress={() => {
+            <View style={{...styles.buttonContainer,alignItems:'center'}}>
+                <Text style={{fontSize:35,fontFamily:'open-sans-bold'}}>{user.name}</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
                     setModalVisible(true)
                     fetchQRCode()
-                }} style={{ padding: 20, backgroundColor: Colors.yellow_shade }}><Text style={{ color: '#fff' }}>Generate QR code</Text></Button>
+                }} style={styles.button}><Text style={styles.buttonText}>Give Points</Text></Button>
             </View>
-            <View style={{flexDirection:'row',justifyContent:'center'}}>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
+                    // setModalVisible(true)
+                    // fetchQRCode()
+                }} style={styles.button}><Text style={styles.buttonText}>Use Points</Text></Button>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
+                    props.navigation.navigate('RestaurantDeals')
+                }} style={styles.button}><Text style={styles.buttonText}>Deals</Text></Button>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
+                    //props.navigation.navigate('ChangePassword')
+                }} style={styles.button}><Text style={styles.buttonText}>View Transactions</Text></Button>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
+                    //props.navigation.navigate('Profile')
+                }} style={styles.button}><Text style={styles.buttonText}>Profile</Text></Button>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
+                    props.navigation.navigate('EditProfile')
+                }} style={styles.button}><Text style={styles.buttonText}>Edit Profile</Text></Button>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
+                    props.navigation.navigate('ChangePassword')
+                }} style={styles.button}><Text style={styles.buttonText}>Change Password</Text></Button>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button full={true} onPress={() => {
+                    //props.navigation.navigate('ChangePassword')
+                }} style={styles.button}><Text style={styles.buttonText}>Settings</Text></Button>
+            </View>
+            {/* <View style={{flexDirection:'row',justifyContent:'center'}}>
                 <Text style={{fontSize:20,fontFamily:'open-sans-bold'}}>Account Details</Text>
                 <TouchableOpacity onPress={()=>setEditMode(true)}><MaterialIcons name="edit" size={20} style={{marginHorizontal:5}} color={Colors.yellow_shade}/></TouchableOpacity>
-            </View>
-            {
+            </View> */}
+            {/* {
                 editMode === false?
                 <View style={{width:'100%',padding:20,alignItems:'center'}}>
                     <Text style={styles.textRow}>Name: {user.name}</Text>
@@ -244,7 +266,7 @@ const RestaurantHome = props => {
                         </Button>
                     </View>
                 </View>
-            }
+            } */}
             <View></View>
         </View>
                 </ScrollView>
@@ -256,7 +278,23 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        paddingBottom:50
+    },
+    buttonContainer:{
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop:15,
+        width:'100%'
+    },
+    button:{ 
+        padding: 20, 
+        backgroundColor: Colors.yellow_shade,
+        borderRadius:5
+    },
+    buttonText:{ 
+        color: '#fff',
+        fontFamily:'open-sans-bold' 
     },
     textRow:{
         fontSize:18,

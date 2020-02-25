@@ -1,62 +1,80 @@
 import React from 'react'
 import { Formik } from 'formik'
-import { TextInput, StyleSheet,ScrollView } from 'react-native'
-import { Button, Spinner, Text } from 'native-base'
+import { TextInput, StyleSheet,ScrollView,SafeAreaView } from 'react-native'
+import { Button, Spinner, Text,Toast } from 'native-base'
 import * as yup from 'yup'
 import Colors from '../assets/colors'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { end_point } from '../assets/config'
 
 const ChangePassword = props => {
 
     const [state, setState] = React.useState({ oldPassword: '', newPassword: '', reNewPassword: '', loading: false })
-    const dispatch = useDispatch()
+    //const dispatch = useDispatch()
+    const user = useSelector(state => state.Auth.user)
+    const token = useSelector(state => state.Auth.token)
 
 
   const handlePasswordChange = (values) => {
 
     setState({ ...state, loading: true })
-    console.log('values',values)
-    // try {
-    //   fetch(end_point + '/api/user/login', {
-    //     method: 'post',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ email: values.email, password: values.password })
-    //   }).then(response => response.json()).then(response => {
-    //     console.log(`response ------------> `, response)
-    //     setState({ ...state, loading: false })
-    //     if (response.error === true) {
-    //       console.log('here')
-    //       Toast.show({
-    //         text: response.message ? response.message : 'Something went wrong!',
-    //         type: "danger"
-    //       })
-    //     } else {
-    //       dispatch({ type: 'SAVE_LOGIN_DETAILS', payload: response.User })
-    //       dispatch({ type: 'SAVE_TOKEN', payload: response.token })
-
-    //       props.navigation.navigate('App')
-    //     }
-    //   }).catch(() => {
-    //     setState({ ...state, loading: false })
-    //     Toast.show({
-    //       text: 'Something went wrong!',
-    //       type: "danger"
-    //     })
-    //   })
-    // } catch (error) {
-    //   console.log(`error ------------> `, error)
-    //   setState({ ...state, loading: false })
-    //   Toast.show({
-    //     text: 'Something went wrong!',
-    //     type: "danger"
-    //   })
-    // }
+    console.log('values',values,user)
+    try {
+        let url = end_point + (user.role === 'restaurant'? '/api/restaurant/change-password/':'/api/user/change-password/') +user._id;
+        console.log('url: ',url)
+      fetch(url, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':`Bearer ${token}`
+        },
+        body: JSON.stringify({ oldPassword: values.oldPassword, newPassword: values.newPassword })
+      }).then(response => response.json()).then(response => {
+        console.log(`response ------------> `, response)
+        setState({ ...state, loading: false })
+        if (response.error === true) {
+          console.log('here')
+          Toast.show({
+            text: response.message ? response.message : 'Something went wrong!',
+            textStyle:{color:'#fff'},
+            position:'top',
+            style:{backgroundColor:'#e53935',color:'black',marginTop:20}
+          })
+        } else {
+            Toast.show({
+                text: 'Password Changed Successfully',
+                textStyle:{color:'#fff'},
+                position:'top',
+                style:{backgroundColor:Colors.color1,color:'black',marginTop:20}
+            })
+            props.navigation.goBack()
+        }
+      }).catch(err => {
+          console.log(err)
+        setState({ ...state, loading: false })
+        Toast.show({
+          text: 'Something went wrong!',
+          textStyle:{color:'#fff'},
+          position:'top',
+          style:{backgroundColor:'#e53935',color:'black',marginTop:20}
+        })
+      })
+    } catch (error) {
+      console.log(`error ------------> `, error)
+      setState({ ...state, loading: false })
+      Toast.show({
+        text: 'Something went wrong!',
+        textStyle:{color:'#fff'},
+        position:'top',
+        style:{backgroundColor:'#e53935',color:'black',marginTop:20}
+      })
+    }
   }
 
 
     return (
+        <SafeAreaView style={styles.outerView}>
+
         <ScrollView style={styles.outerView}>
             <Formik
                 initialValues={{ oldPassword: '',newPassword:'', reNewPassword: '' }}
@@ -141,6 +159,7 @@ const ChangePassword = props => {
                 )}
             </Formik>
         </ScrollView>
+        </SafeAreaView>
     )
 }
 
