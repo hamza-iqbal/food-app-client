@@ -30,7 +30,7 @@ const EditProfileRestaurant = props => {
                   'Content-Type': 'application/json',
                   'Authorization':`Bearer ${token}`
                 },
-                body: JSON.stringify({ name: values.name, contact: values.contact })
+                body: JSON.stringify({ name: values.name, contact: values.contact, pointPercentage:values.pointPercentage })
             }).then(response => response.json()).then(response => {
                 console.log(`response ------------> `, response)
                 setState({ ...state, loading: false })
@@ -80,13 +80,17 @@ const EditProfileRestaurant = props => {
           <ScrollView style={{ flex: 1, backgroundColor: '#fff',width:'100%' }} showsVerticalScrollIndicator={false}>
           <View style={styles.outerView}>
       <Formik
-              initialValues={{ name: user.name, contact: user.contact, city:user.city }}
+              initialValues={{ name: user.name, contact: user.contact, city:user.city, pointPercentage:user.pointPercentage.toString() }}
               onSubmit={values => handleUpdateProfile(values)}
               validationSchema={yup.object().shape({
                 name: yup
                   .string()
                   .max(20,'Name cannot exceed 20 Characters')
                   .required('Name is required'),
+                  pointPercentage: yup
+                    .number('Percentage should be in numbers')
+                  //.number(20,'Name cannot exceed 20 Characters')
+                  .required('Percentage is required'),
                 contact: yup
                   .string()
                   .max(15,'Contact number cannot exceed 15 characters')
@@ -98,6 +102,21 @@ const EditProfileRestaurant = props => {
             >
               {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
                 <React.Fragment>
+                  <View style={{ width: '100%' }}>
+                    <Text style={styles.labelText}>Points Pertentage:</Text>
+                  </View>
+                  <TextInput
+                    value={values.pointPercentage}
+                    onChangeText={handleChange('pointPercentage')}
+                    //placeholderTextColor={'red'}
+                    keyboardType='numeric'
+                    onBlur={() => setFieldTouched('pointPercentage')}
+                    placeholder="Points Pertentage"
+                    style={styles.textInput}
+                  />
+                  {touched.pointPercentage && errors.pointPercentage &&
+                    <Text style={{ fontSize: 10, color: 'red', width: '100%' }}>{errors.pointPercentage}</Text>
+                  }
                   <View style={{ width: '100%' }}>
                     <Text style={styles.labelText}>Name:</Text>
                   </View>

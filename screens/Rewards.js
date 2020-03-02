@@ -12,12 +12,15 @@ const Rewards = props => {
     const dispatch = useDispatch()
 
     const [loading, setLoading] = React.useState(false)
+    const [loading2, setLoading2] = React.useState(false)
     const [rewardsArr, setRewardsArr] = React.useState(null)
+    const [redeemArr, setRedeemArr] = React.useState(null)
     let user = useSelector(state => state.Auth.user)
     let token = useSelector(state => state.Auth.token)
 
 
     React.useEffect(() => {
+        //----------------------------------------------- Fetching Rewards Data ------------------------------------------//
         setLoading(true)
         try {
             console.log(user)
@@ -55,6 +58,44 @@ const Rewards = props => {
                 type: "danger"
             })
         }
+        //----------------------------------------------- Fetching Redeem Data ------------------------------------------//
+        setLoading2(true)
+        try {
+            console.log(user)
+            fetch(end_point + '/api/redeem/' + user._id, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(response => response.json()).then(response => {
+                console.log(`response --------3----> `, response)
+                setLoading2(false)
+                if (response.error === true) {
+                    console.log('here')
+                    Toast.show({
+                        text: response.message ? response.message : 'Something went wrong!',
+                        type: "danger"
+                    })
+                } else {
+                    setRedeemArr(response.Redeems)
+                    //   dispatch({ type: 'SAVE_RESTAURANTS', payload: response.Restaurants })
+                }
+            }).catch(() => {
+                setLoading2(false)
+                Toast.show({
+                    text: 'Something went wrong!3',
+                    type: "danger"
+                })
+            })
+        } catch (error) {
+            setLoading2(false)
+            console.log(`error ------------> `, error)
+            Toast.show({
+                text: 'Something went wrong!2',
+                type: "danger"
+            })
+        }
     }, [])
 
 
@@ -73,22 +114,28 @@ const Rewards = props => {
             <View style={styles.main}>
                 <Tabs tabBarUnderlineStyle={{ backgroundColor: colors.yellow_shade }} style={{ backgroundColor: '#fff' }}>
                     <Tab heading={<TabHeading><Text>Scan History</Text></TabHeading>}>
-                        <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
+                        <View showsVerticalScrollIndicator={false} style={styles.scrollView}>
                             {
                                 rewardsArr === null ?
                                     <Spinner color={colors.yellow_shade} size={30} />
                                     :
-                                    rewardsArr.map(r => (<ScanItem name={r.restaurant.name} key={r._id} points={r.points} dateTime={r.createdAt} />))
+                                    rewardsArr.map(r => (<ScanItem name={r.restaurant.name} key={r._id} billAmount={r.billAmount} points={r.points}  dateTime={r.createdAt} />))
                             }
                             {/* <Tab2 /> */}
-                        </ScrollView>
+                        </View>
                     </Tab>
                     <Tab heading={<TabHeading><Text>Redeem History</Text></TabHeading>}>
-                        <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-                            <RedeemItem name='Bundu Khan' points={350} />
+                        <View showsVerticalScrollIndicator={false} style={styles.scrollView}>
+                        {
+                            redeemArr === null ?
+                            <Spinner color={colors.yellow_shade} size={30} />
+                                    :
+                                    redeemArr.map(r => (<RedeemItem name={r.restaurant.name} key={r._id} points={r.pointsRedeemed}  dateTime={r.createdAt} />))
+                        }
+                            {/* <RedeemItem name='Bundu Khan' points={350} />
                             <RedeemItem name='Dunkin Donuts' points={200} />
-                            <RedeemItem name='Sweet Tooth' points={450} />
-                        </ScrollView>
+                            <RedeemItem name='Sweet Tooth' points={450} /> */}
+                        </View>
                     </Tab>
                     {/* <Tab heading={ <TabHeading><Icon name="apps" /></TabHeading>}>
                     <View>

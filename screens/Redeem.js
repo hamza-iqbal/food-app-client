@@ -10,6 +10,7 @@ import Modal from 'react-native-modal';
 
 const Redeem = props => {
   const [hasPermission, setHasPermission] = useState(null);
+  const [failureLottieText, setFailureLottieText] = useState('Invalid QR Code');
   const [scanned, setScanned] = useState(false);
   const [modalOpen,setModalOpen] = useState(false)
   const user = useSelector(state => state.Auth.user)
@@ -28,7 +29,7 @@ const Redeem = props => {
   const fetchPointsAPI = (code) => {
     setLoading(true)
     try {
-      fetch(end_point +user._id, {
+      fetch(end_point+'/api/user/decode-qr-code-redeeming/' +user._id, {
           method: 'post',
           headers: {
               'Content-Type': 'application/json'
@@ -39,6 +40,9 @@ const Redeem = props => {
           setLoading(false)
           if (response.error === true) {
               console.log('here')
+              if(response.message==='Not Enough Points!'){
+                setFailureLottieText('Not Enough Points!')
+              }
               Toast.show({
                   text: response.message ? response.message : 'Something went wrong!',
                   type: "danger"
@@ -46,18 +50,14 @@ const Redeem = props => {
               setModalOpen(true)
           } else {
               
-              //dispatch({type:'UPDATE_USER_DETAILS',payload:response.User})
-            //   Toast.show({
-            //       text:response.message?response.message:"Transaction",
-            //       type:'success',
-            //       duration:4000
-            //   })
+            dispatch({type:'UPDATE_USER_DETAILS',payload:response.User})
+              Toast.show({
+                  text:response.message?response.message:"Successfully Redeemed Points",
+                  type:'success',
+                  duration:4000
+              })
               setModalOpen(true)
               setSuccess(true)
-              // successAnimationRef.play()
-              // setTimeout(()=>{
-              //   props.navigation.goBack()
-              // },3000)
           }
       }).catch((err) => {
         console.log('errrrrr',err)
@@ -144,9 +144,9 @@ const Redeem = props => {
           <View style={styles.modal}>
             {
               success===true?
-              <SuccessLottie text={'Transaction Successful!'} />
+              <SuccessLottie successText={'Transaction Successful!'} />
               :
-              <FailureLottie text={'Invalid QR Code'} />
+              <FailureLottie text={failureLottieText} />
             }
           </View>
       </Modal>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   modal:{
     backgroundColor:'#fff',
     width:'100%',
-    height:'50%',padding:60
+    height:'50%',padding:60,alignItems:'center'
   }
 });
 

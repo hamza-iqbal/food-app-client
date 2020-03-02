@@ -11,7 +11,7 @@ const RedeemItem = props => {
         <View style={styles.main}>
             <View style={styles.left}>
                 <Text style={styles.name}>{props.name}</Text>
-                <Text style={styles.date}>{moment().format('DD-MM-YYYY HH:mm')}</Text>
+                <Text style={styles.date}>{moment(props.dateTime).format('llll')}</Text>
                 <Text style={styles.points}>Spent {props.points} Points</Text>
             </View>
             <View style={styles.right}>

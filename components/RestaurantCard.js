@@ -29,7 +29,7 @@ const RestaurantCard = props => {
                 <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                     <View style={styles.infoContent}>
                         <Text style={styles.restaurantTitle}>{props.restaurant.name}</Text>
-                        <Text style={styles.restaurantDescription}>{props.restaurant.tags||'fast food, pizza'}</Text>
+                        <Text style={styles.restaurantDescription}>{'fast food, pizza'}</Text>
                     </View>
                     <View style={{...styles.infoContent}}>
                         <Text style={{fontSize:12,color:Colors.grey_shade}}><AntDesign name="star" size={15} color={Colors.red_shade} />&nbsp;&nbsp;{`4.9 (123)`}</Text>

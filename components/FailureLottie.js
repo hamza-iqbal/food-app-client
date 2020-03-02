@@ -13,13 +13,13 @@ import colors from '../assets/colors/index.js';
 const App = props => {
   return (
     <Fragment>
-      <SafeAreaView style={styles.container}>
-          <Text style={styles.text}>{props.text}</Text>
+      <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.body}>
-          <LottieView source={require('../assets/lottie/failure.json')} autoPlay loop={false} style={{height: 200}}/>
+          <LottieView source={require('../assets/lottie/failure.json')} autoPlay loop={false} style={{height:props.height?props.height: 200}}/>
         </View>
-       </SafeAreaView>
+        <Text style={styles.text}>{props.text}</Text>
+       </View>
     </Fragment>
   );
 };
@@ -39,8 +39,10 @@ const styles = StyleSheet.create({
   text:{
     padding:5,
     color:colors.yellow_shade,
-    fontSize:30,
-    fontFamily:'open-sans-bold'
+    fontSize:22,
+    marginTop:20,
+    fontFamily:'open-sans-bold',
+    textAlign:'center'
   }
   
 });

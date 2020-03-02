@@ -9,14 +9,15 @@ import { image_end_point } from '../assets/config'
 import colors from '../assets/colors'
 import {  AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
-
+import DealItem from '../components/DealItem'
+import FoodItem from '../components/FoodItem'
 
 const RestaurantDetails = props => {
     console.log('props in details: ',props)
    
 
     return (
-        <ScrollView style={{backgroundColor:'#fff'}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:'#fff'}}>
 
                 <View style={styles.imageContainer}>
                     <Image source={{uri:image_end_point+props.navigation.state.params.restaurant.profile_picture}} style={styles.image} />
@@ -40,14 +41,31 @@ const RestaurantDetails = props => {
                 </View>
                 <View style={{backgroundColor: '#f6f6f6'}}>
                 <Tabs tabBarUnderlineStyle={{ backgroundColor: colors.yellow_shade }} style={{ backgroundColor: '#fff' }}>
-                    <Tab heading={<TabHeading><Text style={{color:colors.yellow_shade}}>Deals</Text></TabHeading>}>
-                        <ScrollView>
-                            <Text>12345</Text>
-                        </ScrollView>
+                    <Tab style={{paddingBottom:30,paddingTop:6}} heading={<TabHeading><Text style={{color:colors.yellow_shade}}>Deals</Text></TabHeading>}>
+                        {
+                            props.navigation.state.params.restaurant.deals.length === 0?
+                            <View style={{padding:20,alignItems:'center'}}>
+                                <Text style={{color:'#c6c6c6'}}>No deals found!</Text>
+                            </View>
+                            :null
+                        }
+                        {
+                            props.navigation.state.params.restaurant.deals.map(d => <DealItem key={d._id} name={d.dealName} description={d.dealDescription} price={d.dealPrice}/>)
+                        }
+                            {/* <DealItem name="PSL Deal" description="2 Large Pizzas, 2 sides, 1.5 Litre Cold Drink" price={2250}/>
+                            <DealItem name="Whacky Wednesday" description="Buy 2 Medium Pizzas and Get 2 Medium Pizzas free, 1.5 Litre Cold Drink" price={1250}/>
+                            <DealItem name="Premium Share box" description="2 Chicken Big Macs, 2 McChickens, 2 Regular Fries, 1.5 Litre Cold Drink" price={2250}/> */}
+                            {/* <DealItem name="Whacky Wednesday" description="Buy 2 Medium Pizzas and Get 2 Medium Pizzas free, 1.5 Litre Cold Drink" price={1250}/> */}
+                        {/* <ScrollView style={{paddingBottom:30,paddingTop:3}}>
+                        </ScrollView> */}
                     </Tab>
                     <Tab heading={<TabHeading><Text style={{color:colors.yellow_shade}}>Food Items</Text></TabHeading>}>
-                    <ScrollView>
-                        <Text>67890</Text>
+                    <ScrollView style={{paddingTop:4}}>
+                        <FoodItem name={'Chicken Big Mac'} likes={51} dislikes={3} />
+                        <FoodItem name={'Chicken McCrispy'} likes={40} dislikes={5} />
+                        <FoodItem name={'Chicken Fillet-o-Fish'} likes={20} dislikes={1} />
+                        <FoodItem name={'McFlurry Oreo'} likes={10} dislikes={6} />
+                        <FoodItem name={'Spicy McCrispy'} likes={8} dislikes={9} />
                     </ScrollView>
                     </Tab>
                 </Tabs>              

@@ -11,7 +11,8 @@ const ScanItem = props => {
         <View style={styles.main}>
             <View style={styles.left}>
                 <Text style={styles.name}>{props.name}</Text>
-    <Text style={styles.date}>{moment(props.dateTime).format('DD-MM-YYYY HH:mm')}</Text>
+    <Text style={styles.date}>{moment(props.dateTime).format('llll')}</Text>
+                <Text style={{fontSize:17,marginBottom:7,fontFamily:'open-sans-bold'}}>Bill Amount: {props.billAmount} Rs</Text>
                 <Text style={styles.points}>+ {props.points} Points</Text>
             </View>
             <View style={styles.right}>
@@ -24,7 +25,7 @@ const ScanItem = props => {
 const styles = StyleSheet.create({
     main:{
         backgroundColor:'#fff',
-        height:150,
+        //height:150,
         width:'100%',
         padding:25,
         borderWidth:1,

@@ -15,6 +15,7 @@ import RestaurantDetailsScreen from '../screens/RestaurantDetails';
 import SearchRestaurantsScreen from '../screens/SearchRestaurants';
 import WelcomeScreen from '../screens/Welcome';
 import ProfileScreen from '../screens/Profile';
+import RestaurantProfileScreen from '../screens/RestaurantProfile';
 import RestaurantHome from '../screens/RestaurantHome'
 import DrawerComponent from '../components/DrawerComponent'
 import Colors from '../assets/colors';
@@ -138,6 +139,12 @@ const RestaurantStack = createStackNavigator({
     screen: ChangePasswordScreen,
     navigationOptions: {
       title: 'Change Password',
+    }
+  },
+  RestaurantProfile: {
+    screen: RestaurantProfileScreen,
+    navigationOptions: {
+      title: 'Profile',
     }
   },
   EditProfile: {

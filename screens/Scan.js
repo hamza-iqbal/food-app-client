@@ -28,7 +28,7 @@ const Scan = props => {
   const fetchPointsAPI = (code) => {
     setLoading(true)
     try {
-      fetch(end_point + '/api/user/decode-qr-code/'+user._id, {
+      fetch(end_point + '/api/user/decode-qr-code-points/'+user._id, {
           method: 'post',
           headers: {
               'Content-Type': 'application/json'
@@ -144,7 +144,7 @@ const Scan = props => {
           <View style={styles.modal}>
             {
               success===true?
-              <SuccessLottie text={'Points Added!'} />
+              <SuccessLottie successText={'Points Added!'} />
               :
               <FailureLottie text={'Invalid QR Code'} />
             }

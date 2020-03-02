@@ -121,7 +121,7 @@ const SignIn = props => {
                   >
                     {
                       state.loading === true ?
-                        <Spinner color={'black'} size={15} />
+                        <Spinner color={'#fff'} size={15} />
                         :
                         <Text style={{ color: Colors.black_shade }}>Sign In</Text>
                     }
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   button: {
-    width: '100%', marginVertical: 20, justifyContent: 'center'
+    width: '100%', marginVertical: 10, justifyContent: 'center'
   },
   textInput:{
     borderColor:'#BDBDBD',

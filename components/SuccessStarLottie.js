@@ -22,7 +22,7 @@ const App = props => {
           star === false?
           <Text style={styles.text}>Congratulations!</Text>
           :
-          <Text style={styles.text}>Points Added!</Text>
+          <Text style={styles.text}>{props.successText}</Text>
         }
         <StatusBar barStyle="dark-content" />
         <View style={styles.body}>
